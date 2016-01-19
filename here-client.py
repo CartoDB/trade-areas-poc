@@ -69,7 +69,7 @@ if __name__ == '__main__':
 
     start = 'geo!52.51578,13.37749'
     mode = 'shortest;car;traffic:disabled'
-    resp = client.calculate_isodistance(start, None, mode, [1000])
+    resp = client.calculate_isodistance(start, None, mode, [1000,2000,3000])
 
     # pretty-print response
     print json.dumps(resp, indent=4, separators=(',', ': '))
