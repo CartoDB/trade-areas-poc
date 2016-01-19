@@ -38,7 +38,7 @@ class HereRoutingApi:
             'app_code': self.app_code,
             'rangetype': self.RANGE_TYPE_DISTANCE,
             'mode': mode,
-            'range': distance
+            'range': ','.join([str(i) for i in distance])
         }
 
         if start is not None:
@@ -53,8 +53,7 @@ class HereRoutingApi:
         encoded_request_params = urllib.urlencode(request_params)
         full_url = url + '?' + encoded_request_params
         print full_url
-        #response = json.load(urllib.urlopen(full_url))
-        response = {}
+        response = json.load(urllib.urlopen(full_url))
 
         return response
 
