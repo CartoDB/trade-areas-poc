@@ -55,9 +55,28 @@ CREATE OR REPLACE FUNCTION cdb_isodistance(
 
     client = cdb.here.routing.Client(app_id, app_code)
 
-    #--client = cdb.here.routing.Client()
+    # TODO: move this to a module function
+    if start:
+        lat = plpy.execute("SELECT ST_Y('%s') AS lat" % start)[0]['lat']
+        lon = plpy.execute("SELECT ST_X('%s') AS lon" % start)[0]['lon']
+        start_str = 'geo!%f,%f' % (lat, lon)
+    else:
+        start_str = None
 
-    #--mocked response
+    if destination:
+        lat = plpy.execute("SELECT ST_Y('%s') AS lat" % destination)[0]['lat']
+        lon = plpy.execute("SELECT ST_X('%s') AS lat" % destination)[0]['lon']
+        destination_str = 'geo!%f,%f' % (lat, lon)
+    else:
+        destination_str = None
+
+    #plpy.notice('start_str = ' + start_str)
+
+    #resp = client.calculate_isodistance(start_str, dest_str, mode, distance)
+
+    #--TODO adapt the response to the isoline return type
+
+    #--mocked return value
     return []
 $$ LANGUAGE plpythonu;
 
