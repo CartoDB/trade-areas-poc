@@ -30,7 +30,7 @@ setup(
     #long_description=long_description,
 
     # The project's main homepage.
-    url='https://github.com/CartoDB/geocoder-api'
+    url='https://github.com/CartoDB/geocoder-api',
 
     # Author details
     author='Data Services Team - CartoDB',
