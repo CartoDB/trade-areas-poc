@@ -1,11 +1,9 @@
-#!//usr/bin/env python
-
 import json
 import urllib
 
 
 # Client for here routing api
-class HereRoutingApi:
+class RoutingClient:
 
     # Customer Integration Testing (cit) base URL
     DEFAULT_BASE_URL = 'route.cit.api.here.com'
