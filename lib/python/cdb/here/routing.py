@@ -3,7 +3,7 @@ import urllib
 
 
 # Client for here routing api
-class RoutingClient:
+class Client:
 
     # Customer Integration Testing (cit) base URL
     DEFAULT_BASE_URL = 'route.cit.api.here.com'
