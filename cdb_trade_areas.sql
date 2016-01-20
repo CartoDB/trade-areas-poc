@@ -4,8 +4,11 @@
 --   * isolate configs
 --   * add quota checks and usage tracking
 
+-- Requirements:
+--  * Add your app_id and and app_code to cdb_conf table:
+--      SELECT cdb_configure_heremaps('your_app_id', 'your_app_code');
+--
 -- TODO: implement sample function
--- TODO: check if we have the keys in cartodb.cdb_conf at least for team
 -- TODO: implement example of usage
 
 -- Type used for return value
@@ -14,6 +17,18 @@ CREATE TYPE isoline AS (
     range integer,
     the_geom geometry(Geometry,4326)
 );
+
+
+-- Small helper to configure locally
+CREATE OR REPLACE FUNCTION cdb_configure_heremaps(app_id text, app_code text)
+RETURNS void AS $$
+DECLARE
+    conf json;
+BEGIN
+    conf := format('{"app_id": "%s", "app_code": "%s"}', app_id, app_code);
+    PERFORM cartodb.CDB_Conf_SetConf('heremaps', conf);
+END
+$$ LANGUAGE plpgsql;
 
 
 CREATE OR REPLACE FUNCTION cdb_isodistance(
