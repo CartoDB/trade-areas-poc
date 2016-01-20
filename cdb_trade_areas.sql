@@ -46,11 +46,14 @@ CREATE OR REPLACE FUNCTION cdb_isodistance(
     mode text,
     distance integer[]
 ) RETURNS SETOF isoline AS $$
+    import json
     import cdb.here.routing
 
-    #--TODO: get config
+    heremaps_conf = json.loads(plpy.execute("SELECT cartodb.CDB_Conf_GetConf('heremaps') AS conf", 1)[0]['conf'])
+    app_id = heremaps_conf['app_id']
+    app_code = heremaps_conf['app_code']
 
-    #--TODO: move instantiation somewhere else
+    client = cdb.here.routing.Client(app_id, app_code)
 
     #--client = cdb.here.routing.Client()
 
