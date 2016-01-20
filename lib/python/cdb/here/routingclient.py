@@ -56,20 +56,3 @@ class HereRoutingApi:
         response = json.load(urllib.urlopen(full_url))
 
         return response
-
-
-# Small script to test the code above
-if __name__ == '__main__':
-    with open('config.json') as config_file:
-        config = json.load(config_file)
-    app_id = config['app_id']
-    app_code = config['app_code']
-
-    client = HereRoutingApi(app_id, app_code)
-
-    start = 'geo!52.51578,13.37749'
-    mode = 'shortest;car;traffic:disabled'
-    resp = client.calculate_isodistance(start, None, mode, [1000,2000,3000])
-
-    # pretty-print response
-    print json.dumps(resp, indent=4, separators=(',', ': '))
