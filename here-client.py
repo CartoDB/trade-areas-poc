@@ -37,6 +37,9 @@ class HereRoutingApi:
             'app_id': self.app_id,
             'app_code': self.app_code,
             'rangetype': self.RANGE_TYPE_DISTANCE,
+            'quality': 3,
+            'maxpoints': 100,
+            'singlecomponent': 'true',
             'mode': mode,
             'range': ','.join([str(i) for i in distance])
         }
