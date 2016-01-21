@@ -73,96 +73,23 @@ CREATE OR REPLACE FUNCTION cdb_isodistance(
 
     #--plpy.notice('start_str = ' + start_str)
 
-    #--resp = client.calculate_isodistance(start_str, dest_str, mode, distance)
-    #-- mocked response
-    resp = """{
-    "response": {
-        "start": {
-            "linkId": "+1089845810",
-            "originalPosition": {
-                "latitude": 52.51578,
-                "longitude": 13.37749
-            },
-            "mappedPosition": {
-                "latitude": 52.5157795,
-                "longitude": 13.3774881
-            }
-        },
-        "isoline": [
-            {
-                "range": 1000,
-                "component": [
-                    {
-                        "shape": [
-                            "52.5201416,13.3652115",
-                            "52.5208282,13.3669281",
-                            "52.5222015,13.3683014",
-                            "52.5201416,13.3652115"
-                        ],
-                        "id": 0
-                    }
-                ]
-            },
-            {
-                "range": 2000,
-                "component": [
-                    {
-                        "shape": [
-                            "52.517395,13.348732",
-                            "52.5180817,13.3504486",
-                            "52.519455,13.3518219",
-                            "52.517395,13.348732"
-                        ],
-                        "id": 0
-                    }
-                ]
-            },
-            {
-                "range": 3000,
-                "component": [
-                    {
-                        "shape": [
-                            "52.5153351,13.3343124",
-                            "52.517395,13.3346558",
-                            "52.5201416,13.3346558",
-                            "52.5153351,13.3343124"
-                        ],
-                        "id": 0
-                    }
-                ]
-            }
-        ],
-        "center": {
-            "latitude": 52.51578,
-            "longitude": 13.37749
-        },
-        "metaInfo": {
-            "timestamp": "2016-01-21T10:23:00Z",
-            "interfaceVersion": "2.6.15",
-            "mapVersion": "8.30.59.107",
-            "moduleVersion": "7.2.61.0-1206"
-        }
-    }
-}"""
+    resp = client.calculate_isodistance(start_str, destination_str, mode, distance)
 
-
-    #--TODO adapt the response to the isoline return type
-    parsed_resp = json.loads(resp)
-
-    c = parsed_resp['response']['center']
+    c = resp['response']['center']
     center = plpy.execute("SELECT CDB_LatLng (%f, %f) as center" % (c['latitude'], c['longitude']), 1)[0]['center']
 
-    isolines = parsed_resp['response']['isoline']
+    isolines = resp['response']['isoline']
     ret_rows = []
     for isoline in isolines:
         range = isoline['range']
+
         #-- TODO: will this return more than a polygon?
         assert len(isoline['component']) == 1
+
         polyline = isoline['component'][0]['shape']
         multipolygon = cdb.here.types.geo_polyline_to_multipolygon(polyline)
         ret_rows.append([center, range, multipolygon])
 
-    #--mocked return value
     return ret_rows
 $$ LANGUAGE plpythonu;
 
