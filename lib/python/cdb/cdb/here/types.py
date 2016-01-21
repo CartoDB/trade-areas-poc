@@ -10,7 +10,5 @@ def geo_polyline_to_multipolygon(polyline):
         coordinates.append("%s %s" % (lon, lat))
     wkt_coordinates = ','.join(coordinates)
 
-    plpy.notice(wkt_coordinates)
-
     geometry = plpy.execute("SELECT ST_MPolyFromText('MULTIPOLYGON(((%s)))', 4326) as geom" % wkt_coordinates, 1)[0]['geom']
     return geometry
