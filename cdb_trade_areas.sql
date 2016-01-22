@@ -7,7 +7,7 @@
 
 -- * Requirements:
 --  * Add your app_id and and app_code to cdb_conf table:
---      SELECT cdb_configure_heremaps('your_app_id', 'your_app_code');
+--      SELECT _cdb_configure_heremaps('your_app_id', 'your_app_code');
 --
 --  * Package and install the python library:
 --      ```
@@ -18,7 +18,7 @@
 
 
 -- Helper to configure locally
-CREATE OR REPLACE FUNCTION cdb_configure_heremaps(app_id text, app_code text)
+CREATE OR REPLACE FUNCTION _cdb_configure_heremaps(app_id text, app_code text)
 RETURNS void AS $$
 DECLARE
     conf json;
