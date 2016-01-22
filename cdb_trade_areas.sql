@@ -91,7 +91,8 @@ CREATE OR REPLACE FUNCTION cdb_isodistance(
         ret_rows.append([center, range, multipolygon])
 
     return ret_rows
-$$ LANGUAGE plpythonu;
+$$ LANGUAGE plpythonu SECURITY DEFINER;
+-- TODO: I had to add the security definer to be able to read the confs
 
 
 
